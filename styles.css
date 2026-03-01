@@ -7388,6 +7388,17 @@ html[lang="ar"] .mobile-search-panel .search-wrapper,
 
 /* Mobile-specific nav styles */
 @media (max-width: 768px) {
+  /* Mobile nav panel must have an opaque background; the refresh script doesn't
+     re-run navbarCssHelper/colorPaletteService which normally sets this.
+     When --nav-bg is transparent, we use the solid palette bg instead. */
+  .nav-menu,
+  .nav-menu.active,
+  .nav-menu.nav-menu-active,
+  #navMenu,
+  #navMenu.active {
+    background-color: var(--nav-bg, var(--bg-light)) !important;
+  }
+
   /* Ensure hamburger is visible on mobile e-commerce pages.
      Some generated navbars accidentally ship ".mobile-toggle { display:none; }" without a media query.
      Color is NOT set here — navbarLayoutFixService determines the correct color
@@ -7538,7 +7549,7 @@ html[lang="ar"] .mobile-search-panel .search-wrapper,
     position: relative !important;
   }
   
-  /* Mobile nav icon buttons - compact sizing for iframe compatibility.
+  /* Mobile nav icon buttons - sized to match desktop e-commerce standard (36px).
      ALWAYS use solid bg-light background so icons are visible over any hero (dark or light).
      Paired with text-dark color below for guaranteed contrast. */
   .cart-link,
@@ -7549,9 +7560,9 @@ html[lang="ar"] .mobile-search-panel .search-wrapper,
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
     padding: 0 !important;
     position: relative !important;
     overflow: visible !important;
@@ -8225,9 +8236,9 @@ main,
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
     padding: 0 !important;
     position: relative !important;
     overflow: visible !important;
@@ -8338,7 +8349,8 @@ main,
     color: var(--nav-text, var(--text-dark)) !important;
   }
 
-  /* Mobile submenu toggle arrow: vertically centered with nav-link text (15px padding + ~27px line-height) */
+  /* Mobile submenu toggle arrow: flex child that stretches to match the nav-link height
+     via align-self:stretch, so the arrow centers automatically via align-items:center. */
   .navbar .nav-menu .mobile-submenu-toggle,
   .navbar .mobile-submenu-toggle,
   .mobile-submenu-toggle {
@@ -8346,12 +8358,10 @@ main,
     align-items: center !important;
     justify-content: center !important;
     width: 44px !important;
-    height: 44px !important;
-    position: absolute !important;
-    top: 7px !important;
-    transform: none !important;
-    left: 0 !important;
-    right: auto !important;
+    height: auto !important;
+    position: static !important;
+    flex-shrink: 0 !important;
+    align-self: stretch !important;
     background: transparent !important;
     border: none !important;
     cursor: pointer !important;
